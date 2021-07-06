@@ -1,0 +1,15 @@
+{
+    "name": "talha/phpmvc-framework",
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "yotalha",
+            "email": "talha.coder9@gmail.com"
+        }
+    ],
+    "require": {}
+}
