@@ -22,6 +22,10 @@ $app->router->get('/login', [AuthController::class, 'login']);
 $app->router->post('/login', [AuthController::class, 'login']);
 $app->router->get('/register', [AuthController::class, 'register']);
 $app->router->post('/register', [AuthController::class, 'register']);
+$app->router->get('/registerStudent', [AuthController::class, 'registerStudent']);
+$app->router->post('/registerStudent', [AuthController::class, 'registerStudent']);
+$app->router->get('/registerTeacher', [AuthController::class, 'registerTeacher']);
+$app->router->post('/registerTeacher', [AuthController::class, 'registerTeacher']);
 $app->router->get('/logout', [AuthController::class, 'logout']);
 $app->router->get('/profile', [AuthController::class, 'profile']);
 

@@ -43,6 +43,12 @@ use app\core\Application;
                 <li class="nav-item">
                     <a class="nav-link" href="/register">Register</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/registerStudent">Register-Student</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/registerTeacher">Register-Teacher</a>
+                </li>
             </ul>
             <?php else: ?>
             <ul class="navbar-nav ml-auto ">

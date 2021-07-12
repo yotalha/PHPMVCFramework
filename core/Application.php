@@ -3,6 +3,8 @@
 namespace app\core;
 
 use app\core\db\Database;
+use app\models\Student;
+use app\models\Teacher;
 use app\models\User;
 
 class Application
@@ -17,6 +19,7 @@ class Application
     public Session $session;
     public Database $db;
     public ?UserModel $user;
+    public ?UserModel $student;
     public View $view;
 
     public static Application $app;
@@ -36,8 +39,16 @@ class Application
 
         $primaryValue = $this->session->get('user');
         if($primaryValue){
-            $primaryKey = $this->userClass::primaryKey();
-            $this->user = $this->userClass::findOne([$primaryKey => $primaryValue]);
+            $primaryKey = Student::primaryKey();
+            $user = Student::findOne([$primaryKey => $primaryValue]) ?? null;
+            if(!$user){
+                $primaryKey = Teacher::primaryKey();
+                $user = Teacher::findOne([$primaryKey => $primaryValue]) ?? null;
+            }
+
+            if ($user){
+                $this->user = $user;
+            }
         }
         else{
             $this->user = null;
@@ -77,10 +88,21 @@ class Application
         $this->controller = $controller;
     }
 
-    public function login(UserModel $user){
+    public function loginUser(UserModel $user){
         $this->user = $user;
         $primaryKey = $user->primaryKey();
         $primaryValue = $user->{$primaryKey};
+        $this->session->set('user', $primaryValue);
+        return true;
+    }
+
+    public function login(UserModel $user){
+//        $this->student = $student;
+        $this->user = $user;
+        $primaryKey = $user->primaryKey();
+
+        $primaryValue = $user->{$primaryKey};
+
         $this->session->set('user', $primaryValue);
         return true;
     }

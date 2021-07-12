@@ -10,6 +10,8 @@ use app\core\middlewares\AuthMiddleware;
 use app\core\Request;
 use app\core\Response;
 use app\models\LoginForm;
+use app\models\Student;
+use app\models\Teacher;
 use app\models\User;
 
 class AuthController extends Controller
@@ -24,6 +26,7 @@ class AuthController extends Controller
         $loginForm = new LoginForm();
         if($request->isPost()){
             $loginForm->loadData($request->getBody());
+
             if($loginForm->validate() && $loginForm->login()){
                 $response->redirect('/');
                 return;
@@ -56,6 +59,54 @@ class AuthController extends Controller
         $this->setLayout('auth');
         return $this->render('register', [
             'model' => $user
+        ]);
+    }
+
+    public function registerStudent(Request $request){
+        $errors = [];
+        $student = new Student();
+        if($request->isPost()){
+
+            $student->loadData($request->getBody());
+
+
+            if($student->validate() && $student->save()){
+                Application::$app->session->setFLash('success', 'Student registered successfully');
+                Application::$app->response->redirect('/');
+                exit;
+            }
+
+            return $this->render('registerStudent', [
+                'model' => $student
+            ]);
+        }
+        $this->setLayout('auth');
+        return $this->render('registerStudent', [
+            'model' => $student
+        ]);
+    }
+
+    public function registerTeacher(Request $request){
+        $errors = [];
+        $teacher = new Teacher();
+        if($request->isPost()){
+
+            $teacher->loadData($request->getBody());
+
+
+            if($teacher->validate() && $teacher->save()){
+                Application::$app->session->setFLash('success', 'Teacher registered successfully');
+                Application::$app->response->redirect('/');
+                exit;
+            }
+
+            return $this->render('registerTeacher', [
+                'model' => $teacher
+            ]);
+        }
+        $this->setLayout('auth');
+        return $this->render('registerTeacher', [
+            'model' => $teacher
         ]);
     }
 
