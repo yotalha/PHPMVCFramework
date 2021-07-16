@@ -20,6 +20,10 @@ class Controller
         $this->layout = $layout;
     }
 
+    public function renderJson($json){
+        return Application::$app->view->renderJson($json);
+    }
+
     public function render($view, $params = []){
         return Application::$app->view->renderView($view, $params);
     }

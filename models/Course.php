@@ -4,78 +4,80 @@
 namespace app\models;
 
 
+use app\core\db\DbModel;
 use app\core\Model;
-use app\core\DbModel;
 use app\core\UserModel;
+use PDO;
 
-class Course extends UserModel
+class Course extends DbModel
 {
-    const STATUS_INACTIVE = 0;
-    const STATUS_ACTIVE = 1;
-    const STATUS_DELETED = 2;
-
-
-    public string $firstname = '';
-    public string $lastname = '';
-    public string $section = '';
-    public string $department = '';
-    public string $email = '';
-    public int $status = self::STATUS_INACTIVE;
-    public string $password = '';
-    public string $confirmPassword = '';
+    public string $name = '';
+    public string $start = '';
+    public string $end = '';
 
     public function tableName(): string
     {
-        return 'students';
+        return 'courses';
+    }
+
+    public function findAll(){
+        $tableName = self::tableName();
+        $sth = self::prepare("select * from courses");
+        $sth->execute();
+        return $sth->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function primaryKey(): string
     {
-        return 'email';
+        return 'name';
     }
 
     public function save(){
-        $this->status = self::STATUS_INACTIVE;
-        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
         return parent::save();
     }
 
     public function rules(): array
     {
         return [
-            'firstname' => [self::RULE_REQUIRED],
-            'lastname' => [self::RULE_REQUIRED],
-            'section' => [self::RULE_REQUIRED],
-            'department' => [self::RULE_REQUIRED],
-            'email' => [self::RULE_REQUIRED, self::RULE_EMAIL, [
+            'name' => [self::RULE_REQUIRED, [
                 self::RULE_UNIQUE, 'class' => self::class
             ]],
-            'password' => [self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 8], [self::RULE_MAX, 'max' => 24]],
-            'confirmPassword' => [self::RULE_REQUIRED, [self::RULE_MATCH, 'match' => 'password']],
+            'start' => [self::RULE_REQUIRED, [
+                self::RULE_CUSTOM, 'function' => 'validate_conflict'
+            ]],
+            'end' => [self::RULE_REQUIRED],
         ];
+    }
+
+    public function validate_conflict(){
+        $courses = self::findAll();
+        $start_time = strtotime($this->start);
+        $end_time = strtotime($this->end);
+        $conflict = false;
+        foreach ($courses as $item){
+            if (($end_time < strtotime($item['start']) && $start_time < strtotime($item['start'])) || ($start_time > strtotime($item['end']) && $end_time > strtotime($item['end']))) {
+                $conflict = false;
+            } else {
+                $conflict = true;
+                break;
+            }
+        }
+        if($conflict){
+            $this->addError('start', 'you hav a conflict');
+        }
     }
 
     public function attributes(): array
     {
-        return ['firstname', 'lastname', 'section', 'department', 'email', 'password', 'status'];
+        return ['name', 'start', 'end'];
     }
 
     public function labels(): array
     {
         return [
-            'firstname' => 'First Name',
-            'lastname' => 'Last Name',
-            'section' => 'Section',
-            'department' => 'Department',
-            'email' => 'Email',
-            'password' => 'Password',
-            'confirmPassword' => 'Confirm Password',
+            'name' => 'Course Name',
+            'start' => 'Start Time',
+            'end' => 'End Time',
         ];
     }
-
-    public function getDisplayName(): string
-    {
-        return $this->firstname.' '.$this->lastname;
-    }
-
 }

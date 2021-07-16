@@ -11,6 +11,7 @@ class InputField extends BaseField
     public const TYPE_TEXT = 'text';
     public const TYPE_PASSWORD = 'password';
     public const TYPE_NUMBER = 'number';
+    public const TYPE_TIME = 'time';
 
     public string $type;
 
@@ -26,10 +27,13 @@ class InputField extends BaseField
         parent::__construct($model, $attribute);
     }
 
-
-
     public function passwordField(){
         $this->type = self::TYPE_PASSWORD;
+        return $this;
+    }
+
+    public function timeField(){
+        $this->type = self::TYPE_TIME;
         return $this;
     }
 

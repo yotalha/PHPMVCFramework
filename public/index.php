@@ -12,6 +12,12 @@ $config = [
     'userClass' => \app\models\User::class
 ];
 
+ini_set('display_errors', 1);
+
+ini_set('display_startup_errors', 1);
+
+error_reporting(E_ERROR);
+
 $app = new Application(dirname(__DIR__), $config);
 
 $app->router->get('/', [SiteController::class, 'home']);
@@ -28,5 +34,10 @@ $app->router->get('/registerTeacher', [AuthController::class, 'registerTeacher']
 $app->router->post('/registerTeacher', [AuthController::class, 'registerTeacher']);
 $app->router->get('/logout', [AuthController::class, 'logout']);
 $app->router->get('/profile', [AuthController::class, 'profile']);
+$app->router->get('/studentCourse', [AuthController::class, 'studentCourse']);
+$app->router->get('/teacherCourse', [AuthController::class, 'teacherCourse']);
+$app->router->post('/teacherCourse', [AuthController::class, 'teacherCourse']);
+$app->router->post('/enroll', [AuthController::class, 'enroll']);
+$app->router->post('/validate-course', [AuthController::class, 'validateCourse']);
 
 $app->run();

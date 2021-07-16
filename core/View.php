@@ -8,6 +8,10 @@ class View
 {
     public string $title = '';
 
+    public function renderJson($json){
+        return json_encode($json);
+    }
+
     public function renderView($view, $params = []){
 
         $viewContent = $this->renderOnlyView($view, $params);
