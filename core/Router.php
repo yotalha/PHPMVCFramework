@@ -6,9 +6,13 @@ use app\core\exception\NotFoundException;
 
 class Router
 {
-    public Request $request;
-    public Response $response;
-    protected array $routes = [];
+    /** @var Request  */
+    public $request;
+
+    /** @var Response  */
+    public $response;
+
+    protected $routes = [];
 
     /**
      * Router constructor.

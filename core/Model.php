@@ -32,7 +32,7 @@ abstract class Model
         return $this->labels()[$attribute] ?? $attribute;
     }
 
-    public array $errors = [];
+    public $errors = [];
 
     public function validate(){
         foreach ($this->rules() as $attribute => $rules){

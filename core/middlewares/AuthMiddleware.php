@@ -9,7 +9,7 @@ use app\core\exception\ForbiddenException;
 
 class AuthMiddleware extends BaseMiddleware
 {
-    public array $actions = [];
+    public $actions = [];
 
     /**
      * AuthMiddleware constructor.

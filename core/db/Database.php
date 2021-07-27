@@ -8,7 +8,8 @@ use app\core\Application;
 
 class Database
 {
-    public \PDO $pdo;
+    /** @var \PDO  */
+    public $pdo;
 
     /**
      * Database constructor.
@@ -16,8 +17,8 @@ class Database
     public function __construct()
     {
        $servername = "localhost";
-        $username = "talha";
-        $password = "password";
+        $username = "root";
+        $password = "root";
 
         try {
             $this->pdo = new \PDO("mysql:host=$servername;dbname=myDB", $username, $password);
@@ -72,7 +73,12 @@ class Database
     }
 
     public function saveMigrations(array $migrations){
-        $str = implode(",", array_map(fn($m) => "('$m')", $migrations));
+        $newArr = [];
+        foreach ($migrations as $m){
+            $newArr = "('$m')";
+        }
+        var_dump($newArr);
+        $str = implode(",", $newArr);
         $statement = $this->pdo->prepare("INSERT INTO migrations (migration) VALUES 
             $str        
             ");

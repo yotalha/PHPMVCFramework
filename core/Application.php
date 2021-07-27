@@ -7,20 +7,38 @@ use app\models\User;
 
 class Application
 {
-    public static string $ROOT_DIR;
+    public static $ROOT_DIR;
 
-    public string $layout = 'main';
-    public string $userClass;
-    public Router $router;
-    public Request $request;
-    public Response $response;
-    public Session $session;
-    public Database $db;
-    public ?UserModel $user;
-    public View $view;
+    public $layout = 'main';
+    public $userClass;
 
-    public static Application $app;
-    public ?Controller $controller = null;
+    /** @var Router  */
+    public $router;
+
+    /** @var Request  */
+    public $request;
+
+    /** @var Response  */
+    public $response;
+
+    /** @var Session  */
+    public $session;
+
+    /** @var Database  */
+    public $db;
+
+    /** @var UserModel|null  */
+    public $user;
+
+    /** @var View  */
+    public $view;
+
+    /** @var Application  */
+    public static $app;
+
+    /** @var Controller|null  */
+    public $controller = null;
+
     public function __construct($rootPath, array $config)
     {
         $this->userClass = $config['userClass'];

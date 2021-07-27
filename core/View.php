@@ -6,7 +6,7 @@ namespace app\core;
 
 class View
 {
-    public string $title = '';
+    public $title = '';
 
     public function renderView($view, $params = []){
 

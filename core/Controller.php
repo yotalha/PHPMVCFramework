@@ -9,12 +9,12 @@ use app\core\middlewares\BaseMiddleware;
 
 class Controller
 {
-    public string $layout = 'main';
-    public string $action = '';
+    public $layout = 'main';
+    public $action = '';
     /**
      * @var BaseMiddleware[]
      */
-    protected array $middlewares = [];
+    protected $middlewares = [];
 
     public function setLayout($layout){
         $this->layout = $layout;

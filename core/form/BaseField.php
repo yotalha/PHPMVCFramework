@@ -8,8 +8,10 @@ use app\core\Model;
 
 abstract class BaseField
 {
+    /** @var Model  */
     public Model $model;
-    public string $attribute;
+
+    public $attribute;
     /**
      * Field constructor.
      * @param Model $model
